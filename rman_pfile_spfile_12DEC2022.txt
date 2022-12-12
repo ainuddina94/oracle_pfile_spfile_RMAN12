@@ -1,0 +1,541 @@
+login as: oracle
+oracle@192.168.247.10's password:
+Last login: Mon Dec 12 22:41:53 2022 from 192.168.247.14
+[oracle@Ahamad ~]$ sqlplus / as sysdba
+
+SQL*Plus: Release 12.2.0.1.0 Production on Mon Dec 12 22:57:59 2022
+
+Copyright (c) 1982, 2016, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 12c Enterprise Edition Release 12.2.0.1.0 - 64bit Production
+
+SQL> select value from v$diag_info;
+
+VALUE
+--------------------------------------------------------------------------------
+TRUE
+/u01/app/oracle
+/u01/app/oracle/diag/rdbms/orcl/orcl
+/u01/app/oracle/diag/rdbms/orcl/orcl/trace
+/u01/app/oracle/diag/rdbms/orcl/orcl/alert
+/u01/app/oracle/diag/rdbms/orcl/orcl/incident
+/u01/app/oracle/diag/rdbms/orcl/orcl/cdump
+/u01/app/oracle/diag/rdbms/orcl/orcl/hm
+/u01/app/oracle/diag/rdbms/orcl/orcl/trace/orcl_ora_11688.trc
+1
+1
+
+11 rows selected.
+
+SQL> show parameter control_file
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+control_file_record_keep_time        integer     7
+control_files                        string      +DATA/ORCL/CONTROLFILE/current
+                                                 .260.1122979879, +FRA/ORCL/CON
+                                                 TROLFILE/current.256.112297987
+                                                 9
+SQL> desc v$controlfile
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ STATUS                                             VARCHAR2(7)
+ NAME                                               VARCHAR2(513)
+ IS_RECOVERY_DEST_FILE                              VARCHAR2(3)
+ BLOCK_SIZE                                         NUMBER
+ FILE_SIZE_BLKS                                     NUMBER
+ CON_ID                                             NUMBER
+
+SQL>
+SQL>
+SQL>
+SQL>
+SQL> select name from v$controlfile;
+
+NAME
+--------------------------------------------------------------------------------
++DATA/ORCL/CONTROLFILE/current.260.1122979879
++FRA/ORCL/CONTROLFILE/current.256.1122979879
+
+SQL>
+SQL>
+SQL>
+SQL> desc v$logfile
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ GROUP#                                             NUMBER
+ STATUS                                             VARCHAR2(7)
+ TYPE                                               VARCHAR2(7)
+ MEMBER                                             VARCHAR2(513)
+ IS_RECOVERY_DEST_FILE                              VARCHAR2(3)
+ CON_ID                                             NUMBER
+
+SQL>
+SQL>
+SQL> select GROUP#,MEMBER from v$logfile order by GROUP#;
+
+    GROUP#
+----------
+MEMBER
+--------------------------------------------------------------------------------
+         1
++DATA/ORCL/ONLINELOG/group_1.261.1122979881
+
+         1
++FRA/ORCL/ONLINELOG/group_1.257.1122979883
+
+         2
++DATA/ORCL/ONLINELOG/group_2.262.1122979881
+
+
+    GROUP#
+----------
+MEMBER
+--------------------------------------------------------------------------------
+         2
++FRA/ORCL/ONLINELOG/group_2.258.1122979883
+
+         3
++DATA/ORCL/ONLINELOG/group_3.263.1122979885
+
+         3
++FRA/ORCL/ONLINELOG/group_3.259.1122979885
+
+
+6 rows selected.
+
+SQL>
+SQL>
+SQL> rman target /
+SP2-0734: unknown command beginning "rman targe..." - rest of line ignored.
+SQL>
+SQL>
+SQL> exit
+Disconnected from Oracle Database 12c Enterprise Edition Release 12.2.0.1.0 - 64bit Production
+[oracle@Ahamad ~]$  rman target /
+
+Recovery Manager: Release 12.2.0.1.0 - Production on Mon Dec 12 23:06:36 2022
+
+Copyright (c) 1982, 2017, Oracle and/or its affiliates.  All rights reserved.
+
+connected to target database: ORCL (DBID=1650760615)
+
+RMAN> show all;
+
+using target database control file instead of recovery catalog
+RMAN configuration parameters for database with db_unique_name ORCL are:
+CONFIGURE RETENTION POLICY TO REDUNDANCY 1; # default
+CONFIGURE BACKUP OPTIMIZATION OFF; # default
+CONFIGURE DEFAULT DEVICE TYPE TO DISK; # default
+CONFIGURE CONTROLFILE AUTOBACKUP ON; # default
+CONFIGURE CONTROLFILE AUTOBACKUP FORMAT FOR DEVICE TYPE DISK TO '%F'; # default
+CONFIGURE DEVICE TYPE DISK PARALLELISM 1 BACKUP TYPE TO BACKUPSET; # default
+CONFIGURE DATAFILE BACKUP COPIES FOR DEVICE TYPE DISK TO 1; # default
+CONFIGURE ARCHIVELOG BACKUP COPIES FOR DEVICE TYPE DISK TO 1; # default
+CONFIGURE MAXSETSIZE TO UNLIMITED; # default
+CONFIGURE ENCRYPTION FOR DATABASE OFF; # default
+CONFIGURE ENCRYPTION ALGORITHM 'AES128'; # default
+CONFIGURE COMPRESSION ALGORITHM 'BASIC' AS OF RELEASE 'DEFAULT' OPTIMIZE FOR LOAD TRUE ; # default
+CONFIGURE RMAN OUTPUT TO KEEP FOR 7 DAYS; # default
+CONFIGURE ARCHIVELOG DELETION POLICY TO NONE; # default
+CONFIGURE SNAPSHOT CONTROLFILE NAME TO '/u01/app/oracle/product/12.2.0/db_home/dbs/snapcf_orcl.f'; # default
+
+RMAN> ^C
+user interrupt received
+
+
+RMAN> show all
+2>
+3>
+
+RMAN-00571: ===========================================================
+RMAN-00569: =============== ERROR MESSAGE STACK FOLLOWS ===============
+RMAN-00571: ===========================================================
+RMAN-00558: error encountered while parsing input commands
+RMAN-01009: syntax error: found "end-of-file": expecting one of: "for, ;"
+RMAN-01007: at line 4 column 1 file: standard input
+
+RMAN>
+
+RMAN> show all;
+
+RMAN configuration parameters for database with db_unique_name ORCL are:
+CONFIGURE RETENTION POLICY TO REDUNDANCY 1; # default
+CONFIGURE BACKUP OPTIMIZATION OFF; # default
+CONFIGURE DEFAULT DEVICE TYPE TO DISK; # default
+CONFIGURE CONTROLFILE AUTOBACKUP ON; # default
+CONFIGURE CONTROLFILE AUTOBACKUP FORMAT FOR DEVICE TYPE DISK TO '%F'; # default
+CONFIGURE DEVICE TYPE DISK PARALLELISM 1 BACKUP TYPE TO BACKUPSET; # default
+CONFIGURE DATAFILE BACKUP COPIES FOR DEVICE TYPE DISK TO 1; # default
+CONFIGURE ARCHIVELOG BACKUP COPIES FOR DEVICE TYPE DISK TO 1; # default
+CONFIGURE MAXSETSIZE TO UNLIMITED; # default
+CONFIGURE ENCRYPTION FOR DATABASE OFF; # default
+CONFIGURE ENCRYPTION ALGORITHM 'AES128'; # default
+CONFIGURE COMPRESSION ALGORITHM 'BASIC' AS OF RELEASE 'DEFAULT' OPTIMIZE FOR LOAD TRUE ; # default
+CONFIGURE RMAN OUTPUT TO KEEP FOR 7 DAYS; # default
+CONFIGURE ARCHIVELOG DELETION POLICY TO NONE; # default
+CONFIGURE SNAPSHOT CONTROLFILE NAME TO '/u01/app/oracle/product/12.2.0/db_home/dbs/snapcf_orcl.f'; # default
+
+RMAN>
+
+RMAN>
+
+RMAN>
+
+RMAN>
+
+RMAN> exit
+
+
+Recovery Manager complete.
+[oracle@Ahamad ~]$ sqlplus / as sysdba
+
+SQL*Plus: Release 12.2.0.1.0 Production on Mon Dec 12 23:12:33 2022
+
+Copyright (c) 1982, 2016, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 12c Enterprise Edition Release 12.2.0.1.0 - 64bit Production
+
+SQL> archive log list
+Database log mode              No Archive Mode
+Automatic archival             Disabled
+Archive destination            USE_DB_RECOVERY_FILE_DEST
+Oldest online log sequence     9
+Current log sequence           11
+SQL>
+SQL> shutdown immediate
+
+
+Database closed.
+Database dismounted.
+ORACLE instance shut down.
+SQL> SQL> SQL>
+SQL> startup mount
+ORACLE instance started.
+
+Total System Global Area 1157627904 bytes
+Fixed Size                  8619936 bytes
+Variable Size             436209760 bytes
+Database Buffers          704643072 bytes
+Redo Buffers                8155136 bytes
+Database mounted.
+SQL> alter database ARCHIVELOG
+  2
+SQL> ALTER DATABASE ARCHIVELOG;
+
+Database altered.
+
+SQL> ALTER DATABASE OPEN;
+
+Database altered.
+
+SQL> ARCHIVE LOG LIST
+Database log mode              Archive Mode
+Automatic archival             Enabled
+Archive destination            USE_DB_RECOVERY_FILE_DEST
+Oldest online log sequence     9
+Next log sequence to archive   11
+Current log sequence           11
+SQL> ho rman target/
+
+Recovery Manager: Release 12.2.0.1.0 - Production on Mon Dec 12 23:22:26 2022
+
+Copyright (c) 1982, 2017, Oracle and/or its affiliates.  All rights reserved.
+
+connected to target database: ORCL (DBID=1650760615)
+
+RMAN> backup database;
+
+Starting backup at 12-DEC-2022 23:23:14
+using target database control file instead of recovery catalog
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: SID=272 device type=DISK
+channel ORA_DISK_1: starting full datafile backup set
+channel ORA_DISK_1: specifying datafile(s) in backup set
+input datafile file number=00001 name=+DATA/ORCL/DATAFILE/system.256.1122979775
+channel ORA_DISK_1: starting piece 1 at 12-DEC-2022 23:23:19
+channel ORA_DISK_1: finished piece 1 at 12-DEC-2022 23:23:26
+piece handle=+FRA/ORCL/BACKUPSET/2022_12_12/nnndf0_tag20221212t232318_0.260.1123284199 tag=TAG20221212T232318 comment=NONE
+channel ORA_DISK_1: backup set complete, elapsed time: 00:00:07
+channel ORA_DISK_1: starting full datafile backup set
+channel ORA_DISK_1: specifying datafile(s) in backup set
+input datafile file number=00003 name=+DATA/ORCL/DATAFILE/sysaux.257.1122979811
+channel ORA_DISK_1: starting piece 1 at 12-DEC-2022 23:23:26
+channel ORA_DISK_1: finished piece 1 at 12-DEC-2022 23:23:29
+piece handle=+FRA/ORCL/BACKUPSET/2022_12_12/nnndf0_tag20221212t232318_0.261.1123284207 tag=TAG20221212T232318 comment=NONE
+channel ORA_DISK_1: backup set complete, elapsed time: 00:00:03
+channel ORA_DISK_1: starting full datafile backup set
+channel ORA_DISK_1: specifying datafile(s) in backup set
+input datafile file number=00002 name=/u01/app/oracle/product/12.2.0/db_home/dbs/tbs2_data.dbf
+input datafile file number=00005 name=/u01/app/oracle/product/12.2.0/db_home/dbs/tbs1_data.dbf
+input datafile file number=00004 name=+DATA/ORCL/DATAFILE/undotbs1.258.1122979835
+input datafile file number=00007 name=+DATA/ORCL/DATAFILE/users.259.1122979837
+channel ORA_DISK_1: starting piece 1 at 12-DEC-2022 23:23:30
+channel ORA_DISK_1: finished piece 1 at 12-DEC-2022 23:23:31
+piece handle=+FRA/ORCL/BACKUPSET/2022_12_12/nnndf0_tag20221212t232318_0.262.1123284211 tag=TAG20221212T232318 comment=NONE
+channel ORA_DISK_1: backup set complete, elapsed time: 00:00:01
+Finished backup at 12-DEC-2022 23:23:31
+
+Starting Control File and SPFILE Autobackup at 12-DEC-2022 23:23:31
+piece handle=+FRA/ORCL/AUTOBACKUP/2022_12_12/s_1123284211.263.1123284213 comment=NONE
+Finished Control File and SPFILE Autobackup at 12-DEC-2022 23:23:32
+
+RMAN>
+
+RMAN>
+
+RMAN> exit
+
+
+Recovery Manager complete.
+
+SQL>
+SQL> exit
+Disconnected from Oracle Database 12c Enterprise Edition Release 12.2.0.1.0 - 64bit Production
+[oracle@Ahamad ~]$
+[oracle@Ahamad ~]$ ps -ef|grep pmon
+grid      3199     1  0 22:42 ?        00:00:00 asm_pmon_+ASM
+oracle   23364     1  0 23:18 ?        00:00:00 ora_pmon_orcl
+oracle   26913 11327  0 23:24 pts/0    00:00:00 grep --color=auto pmon
+[oracle@Ahamad ~]$
+[oracle@Ahamad ~]$
+[oracle@Ahamad ~]$ asmcmd
+ASMCMD>
+ASMCMD>
+ASMCMD> ls
+ASMCMD> ls
+ASMCMD> exit
+[oracle@Ahamad ~]$ su - grid
+Password:
+Last login: Mon Dec 12 22:40:54 IST 2022
+[grid@Ahamad ~]$ asmcmd
+
+ASMCMD> ASMCMD>
+ASMCMD> ls
+CRS/
+DATA/
+FRA/
+ASMCMD>
+ASMCMD>
+ASMCMD> cd FRA/
+ASMCMD> ls
+ORCL/
+ASMCMD> cd ORCL/
+ASMCMD>
+ASMCMD> ls -lrt
+WARNING:option 'r' is deprecated for 'ls'
+please use 'reverse'
+
+Type  Redund  Striped  Time             Sys  Name
+                                        Y    AUTOBACKUP/
+                                        Y    BACKUPSET/
+                                        Y    CONTROLFILE/
+                                        Y    ONLINELOG/
+ASMCMD>
+ASMCMD>
+ASMCMD>
+ASMCMD> cd  AUTOBACKUP/
+ASMCMD>
+ASMCMD>
+ASMCMD> ls -lrt
+WARNING:option 'r' is deprecated for 'ls'
+please use 'reverse'
+
+Type  Redund  Striped  Time             Sys  Name
+                                        Y    2022_12_12/
+ASMCMD>
+ASMCMD>
+ASMCMD> cd ..
+ASMCMD>
+ASMCMD> ls -lrt
+WARNING:option 'r' is deprecated for 'ls'
+please use 'reverse'
+
+Type  Redund  Striped  Time             Sys  Name
+                                        Y    AUTOBACKUP/
+                                        Y    BACKUPSET/
+                                        Y    CONTROLFILE/
+                                        Y    ONLINELOG/
+ASMCMD>
+ASMCMD>
+ASMCMD>
+ASMCMD> cd BACKUPSET/
+ASMCMD> cd  BACKUPSET/
+ASMCMD-8002: entry 'BACKUPSET' does not exist in directory '+FRA/ORCL/BACKUPSET/'
+ASMCMD> cd  AUTOBACKUP/
+ASMCMD-8002: entry 'AUTOBACKUP' does not exist in directory '+FRA/ORCL/BACKUPSET/'
+ASMCMD> cd CONTROLFILE/
+ASMCMD-8002: entry 'CONTROLFILE' does not exist in directory '+FRA/ORCL/BACKUPSET/'
+ASMCMD>
+ASMCMD>
+ASMCMD> exit
+[grid@Ahamad ~]$
+[grid@Ahamad ~]$ su - oracle
+Password:
+Last login: Mon Dec 12 22:57:24 IST 2022 from 192.168.247.14 on pts/0
+[oracle@Ahamad ~]$
+[oracle@Ahamad ~]$
+[oracle@Ahamad ~]$
+[oracle@Ahamad ~]$ ho rman target/
+bash: ho: command not found...
+[oracle@Ahamad ~]$ sqlplus / as sysdba
+
+SQL*Plus: Release 12.2.0.1.0 Production on Mon Dec 12 23:44:53 2022
+
+Copyright (c) 1982, 2016, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 12c Enterprise Edition Release 12.2.0.1.0 - 64bit Production
+
+SQL> ho rman target/
+
+Recovery Manager: Release 12.2.0.1.0 - Production on Mon Dec 12 23:45:04 2022
+
+Copyright (c) 1982, 2017, Oracle and/or its affiliates.  All rights reserved.
+
+connected to target database: ORCL (DBID=1650760615)
+
+RMAN>
+
+RMAN>
+
+RMAN> backup database plus archivelog;
+
+
+Starting backup at 12-DEC-2022 23:46:03
+current log archived
+using target database control file instead of recovery catalog
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: SID=42 device type=DISK
+channel ORA_DISK_1: starting archived log backup set
+channel ORA_DISK_1: specifying archived log(s) in backup set
+input archived log thread=1 sequence=11 RECID=1 STAMP=1123285563
+channel ORA_DISK_1: starting piece 1 at 12-DEC-2022 23:46:06
+channel ORA_DISK_1: finished piece 1 at 12-DEC-2022 23:46:07
+piece handle=+FRA/ORCL/BACKUPSET/2022_12_12/annnf0_tag20221212t234606_0.265.1123285567 tag=TAG20221212T234606 comment=NONE
+channel ORA_DISK_1: backup set complete, elapsed time: 00:00:01
+Finished backup at 12-DEC-2022 23:46:07
+
+Starting backup at 12-DEC-2022 23:46:07
+using channel ORA_DISK_1
+channel ORA_DISK_1: starting full datafile backup set
+channel ORA_DISK_1: specifying datafile(s) in backup set
+input datafile file number=00001 name=+DATA/ORCL/DATAFILE/system.256.1122979775
+channel ORA_DISK_1: starting piece 1 at 12-DEC-2022 23:46:08
+channel ORA_DISK_1: finished piece 1 at 12-DEC-2022 23:46:15
+piece handle=+FRA/ORCL/BACKUPSET/2022_12_12/nnndf0_tag20221212t234608_0.266.1123285569 tag=TAG20221212T234608 comment=NONE
+channel ORA_DISK_1: backup set complete, elapsed time: 00:00:07
+channel ORA_DISK_1: starting full datafile backup set
+channel ORA_DISK_1: specifying datafile(s) in backup set
+input datafile file number=00003 name=+DATA/ORCL/DATAFILE/sysaux.257.1122979811
+channel ORA_DISK_1: starting piece 1 at 12-DEC-2022 23:46:16
+channel ORA_DISK_1: finished piece 1 at 12-DEC-2022 23:46:19
+piece handle=+FRA/ORCL/BACKUPSET/2022_12_12/nnndf0_tag20221212t234608_0.267.1123285577 tag=TAG20221212T234608 comment=NONE
+channel ORA_DISK_1: backup set complete, elapsed time: 00:00:03
+channel ORA_DISK_1: starting full datafile backup set
+channel ORA_DISK_1: specifying datafile(s) in backup set
+input datafile file number=00002 name=/u01/app/oracle/product/12.2.0/db_home/dbs/tbs2_data.dbf
+input datafile file number=00005 name=/u01/app/oracle/product/12.2.0/db_home/dbs/tbs1_data.dbf
+input datafile file number=00004 name=+DATA/ORCL/DATAFILE/undotbs1.258.1122979835
+input datafile file number=00007 name=+DATA/ORCL/DATAFILE/users.259.1122979837
+channel ORA_DISK_1: starting piece 1 at 12-DEC-2022 23:46:19
+channel ORA_DISK_1: finished piece 1 at 12-DEC-2022 23:46:20
+piece handle=+FRA/ORCL/BACKUPSET/2022_12_12/nnndf0_tag20221212t234608_0.268.1123285579 tag=TAG20221212T234608 comment=NONE
+channel ORA_DISK_1: backup set complete, elapsed time: 00:00:01
+Finished backup at 12-DEC-2022 23:46:20
+
+Starting backup at 12-DEC-2022 23:46:20
+current log archived
+using channel ORA_DISK_1
+channel ORA_DISK_1: starting archived log backup set
+channel ORA_DISK_1: specifying archived log(s) in backup set
+input archived log thread=1 sequence=12 RECID=2 STAMP=1123285581
+channel ORA_DISK_1: starting piece 1 at 12-DEC-2022 23:46:21
+channel ORA_DISK_1: finished piece 1 at 12-DEC-2022 23:46:22
+piece handle=+FRA/ORCL/BACKUPSET/2022_12_12/annnf0_tag20221212t234621_0.270.1123285581 tag=TAG20221212T234621 comment=NONE
+channel ORA_DISK_1: backup set complete, elapsed time: 00:00:01
+Finished backup at 12-DEC-2022 23:46:22
+
+Starting Control File and SPFILE Autobackup at 12-DEC-2022 23:46:23
+piece handle=+FRA/ORCL/AUTOBACKUP/2022_12_12/s_1123285583.271.1123285583 comment=NONE
+Finished Control File and SPFILE Autobackup at 12-DEC-2022 23:46:24
+
+RMAN> exit
+
+
+Recovery Manager complete.
+
+SQL> exit
+Disconnected from Oracle Database 12c Enterprise Edition Release 12.2.0.1.0 - 64bit Production
+[oracle@Ahamad ~]$ cd/u02
+-bash: cd/u02: No such file or directory
+[oracle@Ahamad ~]$ cd/u01
+-bash: cd/u01: No such file or directory
+[oracle@Ahamad ~]$ cd backup/
+-bash: cd: backup/: No such file or directory
+[oracle@Ahamad ~]$ cd backup
+-bash: cd: backup: No such file or directory
+[oracle@Ahamad ~]$ ls -lrt
+total 0
+drwxr-xr-x. 2 oracle oinstall 6 Dec  9 16:07 Templates
+drwxr-xr-x. 2 oracle oinstall 6 Dec  9 16:07 Public
+drwxr-xr-x. 2 oracle oinstall 6 Dec  9 16:07 Downloads
+drwxr-xr-x. 2 oracle oinstall 6 Dec  9 16:07 Desktop
+drwxr-xr-x. 2 oracle oinstall 6 Dec  9 16:07 Videos
+drwxr-xr-x. 2 oracle oinstall 6 Dec  9 16:07 Pictures
+drwxr-xr-x. 2 oracle oinstall 6 Dec  9 16:07 Music
+drwxr-xr-x. 2 oracle oinstall 6 Dec  9 16:07 Documents
+[oracle@Ahamad ~]$ rm -rf*
+rm: invalid option -- '*'
+Try 'rm --help' for more information.
+[oracle@Ahamad ~]$ rm -rf *
+[oracle@Ahamad ~]$
+[oracle@Ahamad ~]$
+[oracle@Ahamad ~]$ rman target/
+
+Recovery Manager: Release 12.2.0.1.0 - Production on Mon Dec 12 23:52:11 2022
+
+Copyright (c) 1982, 2017, Oracle and/or its affiliates.  All rights reserved.
+
+
+connected to target database: ORCL (DBID=1650760615)
+
+RMAN>
+RMAN> run{allocate channel ch1 device type disk;
+backup as compressed backupset database format '/u02/backup/Fullback_%T_%U'
+plus archivelog format '/u02/backup/Archive_%T_%U';
+BACKUP CURRENT CONTROLFILE FORMAT '/u02/backup/Controlback_%T_%U';
+release channel ch1;2> 3> 4> 5> }
+
+using target database control file instead of recovery catalog
+allocated channel: ch1
+channel ch1: SID=274 device type=DISK
+
+
+Starting backup at 12-DEC-2022 23:53:15
+current log archived
+channel ch1: starting compressed archived log backup set
+channel ch1: specifying archived log(s) in backup set
+input archived log thread=1 sequence=11 RECID=1 STAMP=1123285563
+input archived log thread=1 sequence=12 RECID=2 STAMP=1123285581
+input archived log thread=1 sequence=13 RECID=3 STAMP=1123285996
+channel ch1: starting piece 1 at 12-DEC-2022 23:53:16
+released channel: ch1
+RMAN-00571: ===========================================================
+RMAN-00569: =============== ERROR MESSAGE STACK FOLLOWS ===============
+RMAN-00571: ===========================================================
+RMAN-03002: failure of backup plus archivelog command at 12/12/2022 23:53:17
+ORA-19504: failed to create file "/u02/backup/Archive_20221212_0b1f7uvc_1_1"
+ORA-27041: unable to open file
+Linux-x86_64 Error: 2: No such file or directory
+Additional information: 9
+
+RMAN> exit
+
+
+Recovery Manager comp
